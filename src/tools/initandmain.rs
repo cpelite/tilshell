@@ -1,10 +1,12 @@
 use std::io;
 use std::io::Read;
+use crate::tools::fileops::fops_init;
+
 
 pub fn init() {
-    println!("ATTENTION! TilShell is still in a very, very, very early state.");
+    println!("ATTENTION! TilShell is still in a very state.");
     println!("Do you want to proceed? [y, n]");
-    let mut initq = String::new();
+    let mut initq: String = String::new();
     io::stdin().read_line(&mut initq);
 
     if initq.trim() == "y" {
@@ -17,12 +19,18 @@ pub fn init() {
 
 }
 
+pub fn return_to_nm() {
+    shmain();
+}
+
 fn shmain() {
     println!("[~tsh0.1~]");
     let mut usrinput = String::new();
     io::stdin().read_line(&mut usrinput);
 
     if usrinput.trim() == "help" {
+        help();
+    } else if usrinput.trim() == "?" {
         help();
     }
 
@@ -42,6 +50,10 @@ fn shmain() {
         todo();
     }
 
+    else if usrinput.trim() == "fops" {
+        fops_init();
+    }
+
     else {
         println!("Command not recognized!");
         shmain();
@@ -55,6 +67,7 @@ fn help() {
     println!("reload - reloads the shell.");
     println!("todo - opens the to-do list.");
     println!("exit - exits the shell.");
+    println!("fops - enters File operations mode.");
     shmain();
 }
 
