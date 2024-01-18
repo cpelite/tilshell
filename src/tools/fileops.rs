@@ -1,55 +1,10 @@
 use std::io::{self, Write};
 use std::fs::{File, OpenOptions};
+
+use crate::main;
 //use std::path::Path;
 
-use crate::shellmain::shmain;
-
-pub fn fops_init() {
-    println!("[ATTENTION!] Working with files is not properly implemented yet.");
-    println!("Proceed with caution. Do you want to proceed? [y, n]");
-    let mut initq: String = String::new();
-    io::stdin()
-        .read_line(&mut initq)
-        .expect("Failed to read user-input!");
-
-    if initq.trim() == "y" {
-        fops_main()
-    }
-
-    else if initq.trim() == "n" {
-        println!("Returning to normal mode.");
-        shmain();
-    }
-}
-
-fn fops_main() {
-    println!("[~tsh0.2 - FOPS-Mode~]");
-    let mut fopsusrinput: String = String::new();
-    io::stdin()
-        .read_line(&mut fopsusrinput)
-        .expect("Failed to read userinput!");
-
-    if fopsusrinput.trim() == "help" {
-        fops_help();
-
-    } else if fopsusrinput.trim() == "?" {
-        fops_help();
-    }
-
-    else if fopsusrinput.trim() == "mkfile" {
-        fops_mkfile();
-    }
-
-    else if fopsusrinput.trim() == "fileappend" {
-        fops_fileappend();
-    }
-
-    else if fopsusrinput.trim() == "nm" {
-        shmain();
-    }
-}
-
-fn fops_mkfile() {
+pub fn mkfile() {
     let mut user_input = String::new();
     println!("Enter the file path: ");
     io::stdout().flush().unwrap();
@@ -69,10 +24,10 @@ fn fops_mkfile() {
 
         Err(e) => eprintln!("Failed to create file: {}", e),
     }
-    fops_main()
+    main()
 }
 
-fn fops_fileappend() {
+pub fn fileappend() {
     let mut user_input = String::new();
     println!("Enter the file path: ");
     io::stdout().flush().unwrap();
@@ -98,14 +53,14 @@ fn fops_fileappend() {
 
         Err(e) => eprintln!("Failed to open or create file: {}", e),
     }
-    fops_main();
+    main();
 }
 
-fn fops_help() {
+/* fn fops_help() {
     println!("The following commands are available in FOPS mode:");
     println!("help / ? - displays this command listing.");
     println!("nm - returns to normal mode.");
     println!("mkfile - creates a new file.");
     println!("fileappend - appends a existing file.");
     fops_main()
-}
+} */
