@@ -1,32 +1,12 @@
 use std::io;
-use std::io::Read;
 use crate::tools::fileops::fops_init;
 
-
-pub fn init() {
-    println!("ATTENTION! TilShell is still in a very state.");
-    println!("Do you want to proceed? [y, n]");
-    let mut initq: String = String::new();
-    io::stdin().read_line(&mut initq);
-
-    if initq.trim() == "y" {
-        shmain()
-    }
-
-    else if initq.trim() == "n" {
-        println!("Exiting.");
-    }
-
-}
-
-pub fn return_to_nm() {
-    shmain();
-}
-
-fn shmain() {
-    println!("[~tsh0.1~]");
+pub fn shmain() {
+    println!("[~tsh0.2~]");
     let mut usrinput = String::new();
-    io::stdin().read_line(&mut usrinput);
+    io::stdin()
+        .read_line(&mut usrinput)
+        .expect("Failed to read user input!");
 
     if usrinput.trim() == "help" {
         help();
@@ -72,7 +52,7 @@ fn help() {
 }
 
 fn info() {
-    println!("TilShell v0.1 | 20230910");
+    println!("TilShell v0.2 | 2024-01-18");
     println!("Dev: CPElite / ZlatinaDev");
     shmain();
 }
@@ -89,6 +69,7 @@ fn todo() {
     println!("ToDo:");
     println!("Find a way to remove line breaks..");
     println!("Add a calculator.");
-    println!("Implement access to the file system and allow reading of files.");
+    println!("Keep on improving file operations, so that FOPS-Mode can be discarded.");
+    println!("Adding what ever comes to my mind.");
     shmain();
 }

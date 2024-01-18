@@ -1,11 +1,10 @@
-use crate::tools::initandmain;
-use crate::tools::fileops;
+use crate::tools::shellmain;
 
 mod tools {
-    pub mod initandmain;
+    pub mod shellmain;
     pub mod fileops;
 }
 
 fn main() {
-    initandmain::init();
+    shellmain::shmain();
 }
