@@ -71,5 +71,6 @@ fn todo() {
     println!("Add a calculator.");
     println!("Keep on improving file operations, so that FOPS-Mode can be discarded.");
     println!("Adding what ever comes to my mind.");
+    println!("Move functions of shellmain to regular main file - critical for advancing to 1.0");
     shmain();
 }
