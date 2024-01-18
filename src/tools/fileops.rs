@@ -1,5 +1,5 @@
 use std::io::{self, Write};
-use std::fs::{File, OpenOptions};
+use std::fs::{File, OpenOptions, self};
 
 use crate::main;
 //use std::path::Path;
@@ -15,7 +15,7 @@ pub fn mkfile() {
 
     match File::create(file_path) {
         Ok(mut file) => {
-            let content = "File successfully created!";
+            let content = "";
             match file.write_all(content.as_bytes()) {
                 Ok(_) => println!("File created successfully at: {}", file_path),
                 Err(e) => eprintln!("Failed to write content to file: {}", e),
@@ -56,11 +56,17 @@ pub fn fileappend() {
     main();
 }
 
-/* fn fops_help() {
-    println!("The following commands are available in FOPS mode:");
-    println!("help / ? - displays this command listing.");
-    println!("nm - returns to normal mode.");
-    println!("mkfile - creates a new file.");
-    println!("fileappend - appends a existing file.");
-    fops_main()
-} */
+pub fn cat() {
+    let mut user_input = String::new();
+    println!("Enter the file path: ");
+    io::stdout().flush().unwrap();
+    io::stdin()
+        .read_line(&mut user_input)
+        .expect("Failed to read line!");
+    let file_path = user_input.trim();
+
+    let file_contents = fs::read_to_string(file_path)
+        .expect("Contents of file read successfully!");
+    println!("Contents of {file_path} =\n{file_contents}");
+    main();
+}

@@ -7,9 +7,12 @@ pub fn help() {
     println!("help - displays this command listing.");
     println!("info - displays information about shell.");
     println!("todo - opens the to-do list.");
+    println!("------------------------------------------");
     println!("exit - exits the shell.");
-    println!("mkfile - creates a file.");
-    println!("fileappend - appends content to a file.");
+    println!("mkfile - creates a textfile.");
+    println!("fileappend - appends content to a textfile.");
+    println!("------------------------------------------");
+    println!("cat - reads content from a textfile.");
     main();
 }
 
@@ -20,7 +23,7 @@ pub fn info() {
 }
 
 pub fn exit() {
-    println!("Exiting..");
+    println!("Exiting TilShell.");
 }
 
 pub fn todo() {

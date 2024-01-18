@@ -10,11 +10,12 @@ use crate::tools::regularcomms::todo;
 //imports (file operations)
 use crate::tools::fileops::mkfile;
 use crate::tools::fileops::fileappend;
+use crate::tools::fileops::cat;
 
 //imports end here
 
 //static strings start here
-static VER: &str = "TilShell v1.0-dev | 2024-01-18";
+static VER: &str = "TilShell v1.0.1 | 2024-01-18";
 static DEV: &str = "Dev: CPElite / ZlatinaDev";
 //static strings end here
 
@@ -30,35 +31,15 @@ fn main() {
         .read_line(&mut usrinput)
         .expect("Failed to read user input!");
 
-    if usrinput.trim() == "help" {
-        help();
-    } else if usrinput.trim() == "?" {
-        help();
+    match usrinput.as_str().trim() {
+        "help" => help(),
+        "?" => help(),
+        "info" => info(),
+        "exit" => exit(),
+        "todo" => todo(),
+        "mkfile" => mkfile(),
+        "fileappend" => fileappend(),
+        "cat" => cat(),
+        _ => println!("Unrecognized entry!"),
     }
-
-    else if usrinput.trim() == "info" {
-        info();
-    }
-
-    else if usrinput.trim() == "exit" {
-        exit();
-    }
-
-    else if usrinput.trim() == "todo" {
-        todo();
-    }
-
-    else if usrinput.trim() == "mkfile" {
-        mkfile()
-    }
-
-    else if usrinput.trim() == "fileappend" {
-        fileappend()
-    }
-
-    else {
-        println!("Command not recognized!");
-        main();
-    }
-
 }
