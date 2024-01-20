@@ -1,10 +1,10 @@
 use std::io::{self, Write};
-use std::fs::{File, OpenOptions};
+use std::fs::{File, OpenOptions, self};
 
 use crate::main;
 //use std::path::Path;
 
-pub fn mkfile() {
+pub fn touch() {
     let mut user_input = String::new();
     println!("Enter the file path: ");
     io::stdout().flush().unwrap();
@@ -15,10 +15,10 @@ pub fn mkfile() {
 
     match File::create(file_path) {
         Ok(mut file) => {
-            let content = "File successfully created!";
+            let content = "";
             match file.write_all(content.as_bytes()) {
                 Ok(_) => println!("File created successfully at: {}", file_path),
-                Err(e) => eprintln!("Failed to write content to file: {}", e),
+                Err(e) => eprintln!("Failed to create file: {}", e),
             }
         }
 
@@ -27,7 +27,7 @@ pub fn mkfile() {
     main()
 }
 
-pub fn fileappend() {
+pub fn echo() {
     let mut user_input = String::new();
     println!("Enter the file path: ");
     io::stdout().flush().unwrap();
@@ -38,10 +38,28 @@ pub fn fileappend() {
 
     let mut append_content = String::new();
     println!("Please enter what should be appended to file: ");
-    io::stdin()
-        .read_line(&mut append_content)
-        .expect("Failed to read file!");
+    let mut consecutive_empty_lines = 0;
 
+    loop {
+        let mut buffer = String::new();
+        io::stdin()
+            .read_line(&mut buffer)
+            .expect("Failed to read line!");
+
+        if buffer.trim().is_empty() {
+            consecutive_empty_lines += 1;
+        } else {
+            consecutive_empty_lines = 0;
+        }
+
+        append_content.push_str(&buffer);
+
+        // Stop input
+        if consecutive_empty_lines == 1 {
+            break;
+        }
+    }
+    
     match OpenOptions::new().append(true).create(true).open(file_path) {
         Ok(mut file) => {
             let content = &append_content;
@@ -56,11 +74,17 @@ pub fn fileappend() {
     main();
 }
 
-/* fn fops_help() {
-    println!("The following commands are available in FOPS mode:");
-    println!("help / ? - displays this command listing.");
-    println!("nm - returns to normal mode.");
-    println!("mkfile - creates a new file.");
-    println!("fileappend - appends a existing file.");
-    fops_main()
-} */
+pub fn cat() {
+    let mut user_input = String::new();
+    println!("Enter the file path: ");
+    io::stdout().flush().unwrap();
+    io::stdin()
+        .read_line(&mut user_input)
+        .expect("Failed to read line!");
+    let file_path = user_input.trim();
+
+    let file_contents = fs::read_to_string(file_path)
+        .expect("Contents of file read successfully!");
+    println!("Contents of {file_path} =\n{file_contents}");
+    main();
+}
