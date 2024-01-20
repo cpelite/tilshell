@@ -1,64 +1,41 @@
-//default imports
+//imports start here
 use std::io;
-
-//imports (regular commands)
-use crate::tools::regularcomms::help;
-use crate::tools::regularcomms::info;
-use crate::tools::regularcomms::exit;
-use crate::tools::regularcomms::todo;
-
-//imports (file operations)
-use crate::tools::fileops::mkfile;
-use crate::tools::fileops::fileappend;
-
+use crate::tools::regularcomms::*;
+use crate::tools::misc::*;
+use crate::tools::fileops::*;
+use inline_colorization::*;
 //imports end here
 
 //static strings start here
-static VER: &str = "TilShell v1.0-dev | 2024-01-18";
+static VER: &str = "TilShell v1.1.0 | 2024-01-20";
 static DEV: &str = "Dev: CPElite / ZlatinaDev";
 //static strings end here
 
 mod tools {
     pub mod fileops;
     pub mod regularcomms;
+    pub mod misc;
 }
 
 fn main() {
-    println!("[tsh1.0]");
-    let mut usrinput = String::new();
-    io::stdin()
-        .read_line(&mut usrinput)
-        .expect("Failed to read user input!");
+    loop {
+        println!("{color_magenta}[tsh1.1.0]{color_reset}");
+        let mut usrinput = String::new();
+        io::stdin()
+            .read_line(&mut usrinput)
+            .expect("Failed to read user input!");
 
-    if usrinput.trim() == "help" {
-        help();
-    } else if usrinput.trim() == "?" {
-        help();
+        match usrinput.as_str().trim() {
+            "help" => help(),
+            "?" => help(),
+            "info" => info(),
+            "exit" => exit(),
+            "todo" => todo(),
+            "touch" => touch(),
+            "echo" => echo(),
+            "cat" => cat(),
+            "path" => currdir(),
+            _ => println!("{style_bold}{color_bright_red}Unrecognized entry!{color_reset}{style_reset}"),
+        }
     }
-
-    else if usrinput.trim() == "info" {
-        info();
-    }
-
-    else if usrinput.trim() == "exit" {
-        exit();
-    }
-
-    else if usrinput.trim() == "todo" {
-        todo();
-    }
-
-    else if usrinput.trim() == "mkfile" {
-        mkfile()
-    }
-
-    else if usrinput.trim() == "fileappend" {
-        fileappend()
-    }
-
-    else {
-        println!("Command not recognized!");
-        main();
-    }
-
 }
