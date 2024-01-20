@@ -4,7 +4,7 @@ use std::fs::{File, OpenOptions, self};
 use crate::main;
 //use std::path::Path;
 
-pub fn mkfile() {
+pub fn touch() {
     let mut user_input = String::new();
     println!("Enter the file path: ");
     io::stdout().flush().unwrap();
@@ -18,7 +18,7 @@ pub fn mkfile() {
             let content = "";
             match file.write_all(content.as_bytes()) {
                 Ok(_) => println!("File created successfully at: {}", file_path),
-                Err(e) => eprintln!("Failed to write content to file: {}", e),
+                Err(e) => eprintln!("Failed to create file: {}", e),
             }
         }
 
@@ -27,7 +27,7 @@ pub fn mkfile() {
     main()
 }
 
-pub fn fileappend() {
+pub fn echo() {
     let mut user_input = String::new();
     println!("Enter the file path: ");
     io::stdout().flush().unwrap();
@@ -38,10 +38,28 @@ pub fn fileappend() {
 
     let mut append_content = String::new();
     println!("Please enter what should be appended to file: ");
-    io::stdin()
-        .read_line(&mut append_content)
-        .expect("Failed to read file!");
+    let mut consecutive_empty_lines = 0;
 
+    loop {
+        let mut buffer = String::new();
+        io::stdin()
+            .read_line(&mut buffer)
+            .expect("Failed to read line!");
+
+        if buffer.trim().is_empty() {
+            consecutive_empty_lines += 1;
+        } else {
+            consecutive_empty_lines = 0;
+        }
+
+        append_content.push_str(&buffer);
+
+        // Stop input
+        if consecutive_empty_lines == 1 {
+            break;
+        }
+    }
+    
     match OpenOptions::new().append(true).create(true).open(file_path) {
         Ok(mut file) => {
             let content = &append_content;

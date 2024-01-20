@@ -7,9 +7,12 @@ use crate::tools::regularcomms::info;
 use crate::tools::regularcomms::exit;
 use crate::tools::regularcomms::todo;
 
+//imports (misc.rs)
+use crate::tools::misc::currdir;
+
 //imports (file operations)
-use crate::tools::fileops::mkfile;
-use crate::tools::fileops::fileappend;
+use crate::tools::fileops::touch;
+use crate::tools::fileops::echo;
 use crate::tools::fileops::cat;
 
 //imports end here
@@ -22,24 +25,28 @@ static DEV: &str = "Dev: CPElite / ZlatinaDev";
 mod tools {
     pub mod fileops;
     pub mod regularcomms;
+    pub mod misc;
 }
 
 fn main() {
-    println!("[tsh1.0]");
-    let mut usrinput = String::new();
-    io::stdin()
-        .read_line(&mut usrinput)
-        .expect("Failed to read user input!");
+    loop {
+        println!("[tsh1.0.1]");
+        let mut usrinput = String::new();
+        io::stdin()
+            .read_line(&mut usrinput)
+            .expect("Failed to read user input!");
 
-    match usrinput.as_str().trim() {
-        "help" => help(),
-        "?" => help(),
-        "info" => info(),
-        "exit" => exit(),
-        "todo" => todo(),
-        "mkfile" => mkfile(),
-        "fileappend" => fileappend(),
-        "cat" => cat(),
-        _ => println!("Unrecognized entry!"),
+        match usrinput.as_str().trim() {
+            "help" => help(),
+            "?" => help(),
+            "info" => info(),
+            "exit" => exit(),
+            "todo" => todo(),
+            "touch" => touch(),
+            "echo" => echo(),
+            "cat" => cat(),
+            "path" => currdir(),
+            _ => println!("Unrecognized entry!"),
+        }
     }
 }
