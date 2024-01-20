@@ -18,7 +18,7 @@ use crate::tools::fileops::cat;
 //imports end here
 
 //static strings start here
-static VER: &str = "TilShell v1.0.1 | 2024-01-18";
+static VER: &str = "TilShell v1.1.0 | 2024-01-20";
 static DEV: &str = "Dev: CPElite / ZlatinaDev";
 //static strings end here
 
@@ -30,7 +30,7 @@ mod tools {
 
 fn main() {
     loop {
-        println!("[tsh1.0.1]");
+        println!("[tsh1.1.0]");
         let mut usrinput = String::new();
         io::stdin()
             .read_line(&mut usrinput)
