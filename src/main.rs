@@ -1,20 +1,9 @@
-//default imports
+//imports start here
 use std::io;
-
-//imports (regular commands)
-use crate::tools::regularcomms::help;
-use crate::tools::regularcomms::info;
-use crate::tools::regularcomms::exit;
-use crate::tools::regularcomms::todo;
-
-//imports (misc.rs)
-use crate::tools::misc::currdir;
-
-//imports (file operations)
-use crate::tools::fileops::touch;
-use crate::tools::fileops::echo;
-use crate::tools::fileops::cat;
-
+use crate::tools::regularcomms::*;
+use crate::tools::misc::*;
+use crate::tools::fileops::*;
+use inline_colorization::*;
 //imports end here
 
 //static strings start here
@@ -30,7 +19,7 @@ mod tools {
 
 fn main() {
     loop {
-        println!("[tsh1.1.0]");
+        println!("{color_magenta}[tsh1.1.0]{color_reset}");
         let mut usrinput = String::new();
         io::stdin()
             .read_line(&mut usrinput)
@@ -46,7 +35,7 @@ fn main() {
             "echo" => echo(),
             "cat" => cat(),
             "path" => currdir(),
-            _ => println!("Unrecognized entry!"),
+            _ => println!("{style_bold}{color_bright_red}Unrecognized entry!{color_reset}{style_reset}"),
         }
     }
 }
