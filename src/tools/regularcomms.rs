@@ -5,23 +5,31 @@ use crate::tools::misc::pause;
 
 pub fn help() {
     println!("The following commands are implemented currently:");
-    println!("help - displays this command listing.");
-    println!("info - displays information about shell.");
-    println!("todo - opens the to-do list.");
+    println!("help - display this command listing.");
+    println!("info - display information about shell.");
+    println!("todo - open the to-do list.");
     pause();
     help2();
 
     fn help2() {
-        println!("exit - exits the shell.");
-        println!("touch - creates a textfile.");
-        println!("echo - appends content to a textfile.");
+        println!("exit - exit the shell.");
+        println!("touch - create a textfile.");
+        println!("echo - append content to a textfile.");
         pause();
         help3();
     }
 
     fn help3() {
-        println!("cat - reads from a file.");
+        println!("cat - read from a file.");
         println!("path - gets the current directory.");
+        println!("mkdir - create a directory.");
+        pause();
+        help4();
+    }
+
+    fn help4() {
+        println!("rmdir - remove a directory.");
+        println!("rnd - rename a directory.");
         pause();
         main();
     }
@@ -42,5 +50,7 @@ pub fn todo() {
     println!("Find a way to remove line breaks..");
     println!("Add a calculator.");
     println!("Adding what ever comes to my mind.");
+    println!("Improve working with files and paths.");
+    println!("Improve the help command.");
     main();
 }
