@@ -7,8 +7,9 @@ use inline_colorization::*;
 //imports end here
 
 //static strings start here
-static VER: &str = "TilShell v1.1.0 | 2024-01-20";
+static VER: &str = "TilShell v1.2.0 | 2024-02-18";
 static DEV: &str = "Dev: CPElite / ZlatinaDev";
+static SHD: &str = "[tsh1.2.0]";
 //static strings end here
 
 mod tools {
@@ -19,7 +20,7 @@ mod tools {
 
 fn main() {
     loop {
-        println!("{color_magenta}[tsh1.1.0]{color_reset}");
+        println!("{color_magenta}{SHD}{color_reset}");
         let mut usrinput = String::new();
         io::stdin()
             .read_line(&mut usrinput)
@@ -35,6 +36,9 @@ fn main() {
             "echo" => echo(),
             "cat" => cat(),
             "path" => currdir(),
+            "mkdir" => mkdir(),
+            "rmdir" => rmdir(),
+            "rnd" => renamedir(),
             _ => println!("{style_bold}{color_bright_red}Unrecognized entry!{color_reset}{style_reset}"),
         }
     }
