@@ -7,7 +7,7 @@ use inline_colorization::*;
 //imports end here
 
 //static strings start here
-static VER: &str = "TilShell v1.2.0 | 2024-02-18";
+static VER: &str = "TilShell v2.0.0 | 2025-02-13";
 static DEV: &str = "Dev: CPElite / ZlatinaDev";
 static SHD: &str = "[tsh1.2.0]";
 //static strings end here
