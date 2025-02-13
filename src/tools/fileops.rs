@@ -1,5 +1,6 @@
 use std::io::{self, Write};
 use std::fs::{File, OpenOptions, self};
+use std::env;
 
 use crate::main;
 //use std::path::Path;
@@ -24,6 +25,23 @@ pub fn touch() {
 
         Err(e) => eprintln!("Failed to create file: {}", e),
     }
+    main()
+}
+
+//EXPERIMENTAL
+pub fn rmfile() {
+    let mut user_input = String::new();
+    println!("Enter path to file: ");
+    io::stdout().flush().unwrap();
+    io::stdin()
+        .read_line(&mut user_input)
+        .expect("Failed to read line!");
+    let file_path = user_input.trim();
+
+    fs::remove_file(file_path).expect("could not remove file");
+    
+    println!("Removed file {}", file_path);
+
     main()
 }
 
@@ -162,4 +180,29 @@ pub fn renamedir() {
     } else {
         println!("Directory renamed successfully!");
     }
+}
+
+pub fn chdir() {
+    let mut user_input = String::new();
+    println!("Enter the new working directory: ");
+    io::stdout().flush().unwrap();
+    io::stdin()
+        .read_line(&mut user_input)
+        .expect("Failed to read line!");
+    let new_dir = user_input.trim();
+
+    match env::set_current_dir(new_dir) {
+        Ok(_) => println!("Successfully changed working directory to: {}", new_dir),
+        Err(e) => println!("Failed to change working directory: {}", e),
+    }
+    main()
+}
+
+pub fn dir() {
+    let paths = fs::read_dir("./").unwrap();
+
+    for path in paths {
+        println!("Name: {}", path.unwrap().path().display())
+    }
+    main()
 }
