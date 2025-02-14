@@ -1,19 +1,16 @@
-use std::io::{self, Write};
+use std::io::{Write};
 use std::fs::{File, OpenOptions, self};
 use std::env;
 
 use crate::main;
 //use std::path::Path;
 
-pub fn touch() {
-    let mut user_input = String::new();
-    println!("Enter the file path: ");
-    io::stdout().flush().unwrap();
-    io::stdin()
-        .read_line(&mut user_input)
-        .expect("Failed to read line!");
-    let file_path = user_input.trim();
-
+pub fn touch(args: &[&str]) {
+    if args.is_empty() {
+        println!("Usage: touch <file_path>");
+        return;
+    }
+    let file_path = args[0];
     match File::create(file_path) {
         Ok(mut file) => {
             let content = "";
@@ -22,105 +19,59 @@ pub fn touch() {
                 Err(e) => eprintln!("Failed to create file: {}", e),
             }
         }
-
         Err(e) => eprintln!("Failed to create file: {}", e),
     }
-    main()
 }
 
-//EXPERIMENTAL
-pub fn rmfile() {
-    let mut user_input = String::new();
-    println!("Enter path to file: ");
-    io::stdout().flush().unwrap();
-    io::stdin()
-        .read_line(&mut user_input)
-        .expect("Failed to read line!");
-    let file_path = user_input.trim();
-
-    fs::remove_file(file_path).expect("could not remove file");
-    
-    println!("Removed file {}", file_path);
-
-    main()
-}
-
-pub fn echo() {
-    let mut user_input = String::new();
-    println!("Enter the file path: ");
-    io::stdout().flush().unwrap();
-    io::stdin()
-        .read_line(&mut user_input)
-        .expect("Failed to read line!");
-    let file_path = user_input.trim();
-
-    let mut append_content = String::new();
-    println!("Please enter what should be appended to file: ");
-    let mut consecutive_empty_lines = 0;
-
-    loop {
-        let mut buffer = String::new();
-        io::stdin()
-            .read_line(&mut buffer)
-            .expect("Failed to read line!");
-
-        if buffer.trim().is_empty() {
-            consecutive_empty_lines += 1;
-        } else {
-            consecutive_empty_lines = 0;
-        }
-
-        append_content.push_str(&buffer);
-
-        // Stop input
-        if consecutive_empty_lines == 1 {
-            break;
-        }
+pub fn rmfile(args: &[&str]) {
+    if args.is_empty() {
+        println!("Usage: rm <file_path>");
+        return;
     }
-    
+    let file_path = args[0];
+    if let Err(e) = fs::remove_file(file_path) {
+        eprintln!("Error: Failed to remove file. {}", e);
+    } else {
+        println!("Removed file {}", file_path);
+    }
+}
+
+pub fn echo(args: &[&str]) {
+    if args.len() < 2 {
+        println!("Usage: echo <file_path> <text>");
+        return;
+    }
+    let file_path = args[0];
+    let content = args[1..].join(" ");
     match OpenOptions::new().append(true).create(true).open(file_path) {
         Ok(mut file) => {
-            let content = &append_content;
             match file.write_all(content.as_bytes()) {
                 Ok(_) => println!("Content appended successfully to: {}", file_path),
                 Err(e) => eprintln!("Failed to write content to file: {}", e),
             }
         }
-
         Err(e) => eprintln!("Failed to open or create file: {}", e),
     }
-    main();
 }
 
-pub fn cat() {
-    let mut user_input = String::new();
-    println!("Enter the file path: ");
-    io::stdout().flush().unwrap();
-    io::stdin()
-        .read_line(&mut user_input)
-        .expect("Failed to read line!");
-    let file_path = user_input.trim();
-
-    let file_contents = fs::read_to_string(file_path)
-        .expect("Contents of file read successfully!");
-    println!("Contents of {file_path} =\n{file_contents}");
-    main();
-}
-
-pub fn mkdir() {
-    let mut user_input = String::new();
-    println!("Please enter the path where the new directory should be created: ");
-    io::stdin()
-        .read_line(&mut user_input)
-        .expect("Failed to read path!");
-
-    let trimmed_path = user_input.trim();
-
-    if trimmed_path.is_empty() {
-        eprintln!("Error: Empty path provided. Please enter a valid path!");
+pub fn cat(args: &[&str]) {
+    if args.is_empty() {
+        println!("Usage: cat <file_path>");
         return;
     }
+    let file_path = args[0];
+    match fs::read_to_string(file_path) {
+        Ok(file_contents) => println!("Contents of {}:\n{}", file_path, file_contents),
+        Err(e) => eprintln!("Failed to read file: {}", e),
+    }
+}
 
+pub fn mkdir(args: &[&str]) {
+    if args.is_empty() {
+        println!("Usage: mkdir <directory_path>");
+        return;
+    }
+    let trimmed_path = args[0];
     if let Err(err) = fs::create_dir(trimmed_path) {
         eprintln!("Error: Failed to create directory. {}", err);
     } else {
@@ -128,20 +79,12 @@ pub fn mkdir() {
     }
 }
 
-pub fn rmdir() {
-    let mut user_input = String::new();
-    println!("Please enter the path of the directory which shall be deleted.");
-    io::stdin()
-        .read_line(&mut user_input)
-        .expect("Failed to read path!");
-
-    let trimmed_path = user_input.trim();
-
-    if trimmed_path.is_empty() {
-        eprintln!("Error: Empty path provided. Please enter a valid path!");
+pub fn rmdir(args: &[&str]) {
+    if args.is_empty() {
+        println!("Usage: rmdir <directory_path>");
         return;
     }
-
+    let trimmed_path = args[0];
     if let Err(err) = fs::remove_dir(trimmed_path) {
         eprintln!("Error: Failed to delete directory. {}", err);
     } else {
@@ -149,32 +92,17 @@ pub fn rmdir() {
     }
 }
 
-pub fn renamedir() {
-    let mut user_input = String::new();
-    println!("Please enter the path of the directory which shall be renamed.");
-    io::stdin()
-        .read_line(&mut user_input)
-        .expect("Failed to read path!");
+// Works with parser.
 
-    println!("Please enter the new name for the directory. Please note that you must enter the full path, at least for now.");
-    let mut newname = String::new();
-    io::stdin()
-        .read_line(&mut newname)
-        .expect("Failed to read input!");
-
-    let trimmed_path = user_input.trim();
-    let newname = newname.trim();
-
-    if trimmed_path.is_empty() {
-        eprintln!("Error: Empty path provided. Please enter a valid path!");
+pub fn renamedir(args: &[&str]) {
+    if args.len() < 2 {
+        eprintln!("Usage: rnd <current_path> <new_path>");
         return;
     }
-
-    if newname.is_empty() {
-        eprintln!("Error: New name not provided. Please provide a new name.");
-        return;
-    }
-
+    
+    let trimmed_path = args[0];
+    let newname = args[1];
+    
     if let Err(err) = fs::rename(trimmed_path, newname) {
         eprintln!("Error: Failed to rename directory. {}", err);
     } else {
@@ -182,20 +110,16 @@ pub fn renamedir() {
     }
 }
 
-pub fn chdir() {
-    let mut user_input = String::new();
-    println!("Enter the new working directory: ");
-    io::stdout().flush().unwrap();
-    io::stdin()
-        .read_line(&mut user_input)
-        .expect("Failed to read line!");
-    let new_dir = user_input.trim();
-
+pub fn chdir(args: &[&str]) {
+    if args.is_empty() {
+        println!("Usage: chdir <directory>");
+        return;
+    }
+    let new_dir = args[0];
     match env::set_current_dir(new_dir) {
         Ok(_) => println!("Successfully changed working directory to: {}", new_dir),
         Err(e) => println!("Failed to change working directory: {}", e),
     }
-    main()
 }
 
 pub fn dir() {
