@@ -1,4 +1,3 @@
-use crate::main;
 use crate::VER;
 use crate::DEV;
 use std::collections::BTreeMap;
@@ -25,14 +24,11 @@ pub fn help() {
         println!("{:<20} - {}", command, description);
 
     }
-
-    main()
 }
 
 pub fn info() {
     println!("{VER}");
     println!("{DEV}");
-    main();
 }
 
 pub fn exit() {
@@ -45,5 +41,4 @@ pub fn todo() {
     println!("Add a calculator.");
     println!("Adding what ever comes to my mind.");
     println!("Improve working with files and paths.");
-    main();
 }

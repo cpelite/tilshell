@@ -2,9 +2,6 @@ use std::io::{Write};
 use std::fs::{File, OpenOptions, self};
 use std::env;
 
-use crate::main;
-//use std::path::Path;
-
 pub fn touch(args: &[&str]) {
     if args.is_empty() {
         println!("Usage: touch <file_path>");
@@ -128,5 +125,4 @@ pub fn dir() {
     for path in paths {
         println!("Name: {}", path.unwrap().path().display())
     }
-    main()
 }
