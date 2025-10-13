@@ -8,7 +8,7 @@ use inline_colorization::*;
 //imports end here
 
 //static strings start here
-static VER: &str = "TilShell v2.5.0 | 2025-10-13";
+static VER: &str = "TilShell v3.0.0-dev | 2025-10-13";
 static DEV: &str = "Dev: CPElite / ZlatinaDev";
 //static strings end here
 
@@ -45,6 +45,13 @@ pub fn parse_command(input: &str) {
 }
 
 fn main() {
+
+    println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
+    println!("{style_bold}{color_bright_cyan}  TilShell v3.0.0-dev{color_reset}{style_reset}");
+    println!("{style_bold}{color_yellow}  ⚠️  DEVELOPMENT RELEASE ⚠️{color_reset}{style_reset}");
+    println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
+    println!();
+    
     loop {
         print!("{style_bold}{color_bright_yellow}tsh>{color_reset}{style_reset} ");
         io::stdout().flush().unwrap();
