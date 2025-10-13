@@ -8,7 +8,7 @@ use inline_colorization::*;
 //imports end here
 
 //static strings start here
-static VER: &str = "TilShell v2.1.0 | 2025-02-14";
+static VER: &str = "TilShell v2.5.0 | 2025-10-13";
 static DEV: &str = "Dev: CPElite / ZlatinaDev";
 //static strings end here
 
@@ -24,6 +24,7 @@ pub fn parse_command(input: &str) {
     let args: Vec<&str> = parts.collect(); // Restliche Teile sind Argumente
 
     match command {
+        "" => return,
         "help" | "?" => help(),
         "info" => info(),
         "exit" => exit(),
@@ -31,13 +32,14 @@ pub fn parse_command(input: &str) {
         "touch" => touch(&args),
         "echo" => echo(&args),
         "cat" => cat(&args),
-        "path" => currdir(),
+        "path" | "pwd" => currdir(),
         "mkdir" => mkdir(&args),
         "rmdir" => rmdir(&args),
         "rnd" => renamedir(&args),
         "rm" => rmfile(&args),
-        "chdir" => chdir(&args),
-        "dir" => dir(),
+        "chdir" | "cd" => chdir(&args),
+        "dir" | "ls" => dir(),
+        "clear" | "cls" => clear(),
         _ => println!("{style_bold}{color_bright_red}Unrecognized entry!{color_reset}{style_reset}"),
     }
 }
