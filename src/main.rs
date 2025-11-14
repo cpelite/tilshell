@@ -1,5 +1,5 @@
 //imports start here
-use std::io;
+use std::{env, io};
 use std::io::Write;
 use crate::tools::regularcomms::*;
 use crate::tools::misc::*;
@@ -8,7 +8,7 @@ use inline_colorization::*;
 //imports end here
 
 //static strings start here
-static VER: &str = "TilShell v3.0.0-dev | 2025-10-13";
+static VER: &str = "TilShell v3.0.1-dev | 2025-11-14";
 static DEV: &str = "Dev: CPElite / ZlatinaDev";
 //static strings end here
 
@@ -46,7 +46,7 @@ pub fn parse_command(input: &str) {
     }
 }
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
     println!("{style_bold}{color_bright_cyan}  TilShell v3.0.0-dev{color_reset}{style_reset}");
@@ -55,7 +55,10 @@ fn main() {
     println!();
 
     loop {
-        print!("{style_bold}{color_bright_yellow}tsh>{color_reset}{style_reset} ");
+        //Aktuellen Pfad auslesen
+        let curr_path = env::current_dir()?;
+
+        print!("{} ", curr_path.display());
         io::stdout().flush().unwrap();
         let mut input = String::new();
         io::stdin().read_line(&mut input).expect("Failed to read line");
