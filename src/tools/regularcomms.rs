@@ -18,6 +18,9 @@ pub fn help() {
     commands.insert("rm", "Removes a file.");
     commands.insert("chdir", "Change the working directory.");
     commands.insert("dir", "Lists all files and folders in current directory.");
+    commands.insert("clear", "Clears screen.");
+    commands.insert("callext", "Calls external commands.");
+
 
     println!("Available commands:");
     for (command, description) in &commands {
@@ -41,4 +44,31 @@ pub fn todo() {
     println!("Add a calculator.");
     println!("Adding what ever comes to my mind.");
     println!("Improve working with files and paths.");
+}
+
+//guest-shell specific commands and functions
+
+pub fn gshell_info() {
+    println!("You are currently using the Sub-Shell for Guests.");
+    println!("This shell is a shell with limited features, which only allows read operations.");
+}
+
+pub fn help_guest() {
+    let mut commands = BTreeMap::new();
+    commands.insert("help", "Show this command listing.");
+    commands.insert("info", "Shows information about shell.");
+    commands.insert("todo", "Shows the to-do list.");
+    commands.insert("exit", "Closes the shell.");
+    commands.insert("cat", "Reads from a text file.");
+    commands.insert("path", "Shows current directory.");
+    commands.insert("chdir", "Change the working directory.");
+    commands.insert("dir", "Lists all files and folders in current directory.");
+    commands.insert("gshell", "Displays information about the Sub-Shell for guests.");
+    commands.insert("clear", "Clears screen.");
+
+    println!("Available commands:");
+    for (command, description) in &commands {
+        println!("{:<20} - {}", command, description);
+
+    }
 }
