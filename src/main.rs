@@ -8,7 +8,7 @@ use inline_colorization::*;
 //imports end here
 
 //static strings start here
-static VER: &str = "TilShell v3.0.1-dev | 2025-11-14";
+static VER: &str = "TilShell v3.0.2-dev | 2026-04-11";
 static DEV: &str = "Dev: CPElite / ZlatinaDev";
 //static strings end here
 
@@ -46,22 +46,29 @@ pub fn parse_command(input: &str) {
     }
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn login() -> Result<(), Box<dyn std::error::Error>> {
+    loop {
+        println!("Please enter your username");
+        let mut username = String::new();
+        io::stdin().read_line(&mut username)?;
+        if username.trim() == "lynnf" {
+            println!("Welcome, Lynn.");
+            // Shell-loop...
+            break;
+        } else {
+            println!("Authentication failure!");
+            println!("Restarting authentication!");
+        }
+    }
+    Ok(())
+}
 
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
-    println!("{style_bold}{color_bright_cyan}  TilShell v3.0.0-dev{color_reset}{style_reset}");
+    println!("{style_bold}{color_bright_cyan}  TilShell v3.0.2-dev{color_reset}{style_reset}");
     println!("{style_bold}{color_yellow}  ⚠️  DEVELOPMENT RELEASE ⚠️{color_reset}{style_reset}");
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
     println!();
 
-    loop {
-        //Aktuellen Pfad auslesen
-        let curr_path = env::current_dir()?;
-
-        print!("{} ", curr_path.display());
-        io::stdout().flush().unwrap();
-        let mut input = String::new();
-        io::stdin().read_line(&mut input).expect("Failed to read line");
-        parse_command(&input);
-    }
+    login()
 }
