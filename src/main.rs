@@ -1,9 +1,8 @@
 //imports start here
-use std::{env, io};
-use std::io::Write;
 use crate::tools::regularcomms::*;
 use crate::tools::misc::*;
 use crate::tools::fileops::*;
+use crate::tools::session_handling::*;
 use inline_colorization::*;
 //imports end here
 
@@ -16,6 +15,7 @@ mod tools {
     pub mod fileops;
     pub mod regularcomms;
     pub mod misc;
+    pub mod session_handling;
 }
 
 pub fn parse_command(input: &str) {
@@ -46,29 +46,12 @@ pub fn parse_command(input: &str) {
     }
 }
 
-fn login() -> Result<(), Box<dyn std::error::Error>> {
-    loop {
-        println!("Please enter your username");
-        let mut username = String::new();
-        io::stdin().read_line(&mut username)?;
-        if username.trim() == "lynnf" {
-            println!("Welcome, Lynn.");
-            // Shell-loop...
-            break;
-        } else {
-            println!("Authentication failure!");
-            println!("Restarting authentication!");
-        }
-    }
-    Ok(())
-}
-
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
-    println!("{style_bold}{color_bright_cyan}  TilShell v3.0.2-dev{color_reset}{style_reset}");
+    println!("{style_bold}{color_bright_cyan}  {VER}{color_reset}{style_reset}"); // VER statt hardcoded!
     println!("{style_bold}{color_yellow}  ⚠️  DEVELOPMENT RELEASE ⚠️{color_reset}{style_reset}");
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
     println!();
-
-    login()
+    let _ = login();       // erst login
+    shell_loop()    // dann shell
 }
