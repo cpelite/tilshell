@@ -1,6 +1,7 @@
 use std::{env, io};
 use std::io::Write;
 use crate::parse_command;
+use crate::tools::parser::parse_command_guest;
 
 //rudimentary login system
 pub fn login() -> Result<(), Box<dyn std::error::Error>> {
@@ -13,7 +14,7 @@ pub fn login() -> Result<(), Box<dyn std::error::Error>> {
             break;
         } else if username.trim() == "guest" {
             println!("Welcome, Guest. Sub-shell for guests is active.");
-            guest_shell();
+            let _ = guest_shell();
             break;
         } else {
             println!("Authentication failure!");
@@ -35,7 +36,14 @@ pub fn shell_loop() -> Result<(), Box<dyn std::error::Error>> {
     }
 }
 
-// guest shell
-pub fn guest_shell() {
-    println!("Well.. that's awkward - but the sub-shell for guests is still in work. Sorry!");
+// looping after login - guest shell
+pub fn guest_shell() -> Result<(), Box<dyn std::error::Error>> {
+    loop {
+        let curr_path = env::current_dir()?;
+        print!("{} ", curr_path.display());
+        io::stdout().flush()?;
+        let mut input = String::new();
+        io::stdin().read_line(&mut input)?;
+        parse_command_guest(&input);
+    }
 }
