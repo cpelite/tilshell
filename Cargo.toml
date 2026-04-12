@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 inline_colorization = "0.1.6"
 dotenv = "0.15.0"
+password-auth = "1.1.0-rc.1"

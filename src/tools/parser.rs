@@ -1,6 +1,7 @@
 use crate::tools::fileops::*;
 use crate::tools::misc::*;
 use crate::tools::regularcomms::*;
+use crate::tools::authentication::*;
 use inline_colorization::*;
 
 pub fn parse_command(input: &str) {
@@ -27,6 +28,7 @@ pub fn parse_command(input: &str) {
         "clear" | "cls" => clear(),
         "git" => git(),
         "callext" => call_external(&args),
+        "passwd" => { let _ = setup_pw(); }
         _ => println!("{style_bold}{color_bright_red}Unrecognized entry!{color_reset}{style_reset}"),
     }
 }

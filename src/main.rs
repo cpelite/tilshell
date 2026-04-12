@@ -15,6 +15,7 @@ mod tools {
     pub mod misc;
     pub mod session_handling;
     pub mod parser;
+    pub mod authentication;
 }
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");

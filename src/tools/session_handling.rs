@@ -1,14 +1,16 @@
 use std::{env, io};
 use std::io::Write;
 use crate::parse_command;
-use crate::tools::parser::{parse_command_bene, parse_command_guest};
+use crate::tools::parser::*;
+use crate::tools::authentication::*;
 use dotenv::dotenv;
 
 //rudimentary login system, based on dotenv
 pub fn login() -> Result<(), Box<dyn std::error::Error>> {
     dotenv().ok();
-    let valid_user = env::var("SHELL_USER").unwrap_or_else(|_| "lynnf".to_string());
-    let bene_user = env::var("SHELL_USERb").unwrap_or_else(|_| "bene".to_string());
+    let valid_user = env::var("SHELL_USER_R").unwrap_or_else(|_| "lynn".to_string());
+    let bene_user = env::var("SHELL_USER_B").unwrap_or_else(|_| "bene".to_string());
+
     loop {
         println!("Please enter your username");
 
@@ -17,8 +19,16 @@ pub fn login() -> Result<(), Box<dyn std::error::Error>> {
 
         match username.trim() {
             u if u == valid_user => {
-                println!("Welcome, {}.", u);
-                break;
+                println!("Enter password:");
+                let mut password = String::new();
+                io::stdin().read_line(&mut password)?;
+                if verify_pw(password.trim()) {
+                    println!("Welcome, {}.", u);
+                    break;
+                } else {
+                    println!("Wrong password!");
+                    println!("Restarting authentication!")
+                }
             }
 
             u if u == bene_user => {
