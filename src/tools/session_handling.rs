@@ -8,6 +8,7 @@ use dotenv::dotenv;
 pub fn login() -> Result<(), Box<dyn std::error::Error>> {
     dotenv().ok();
     let valid_user = env::var("SHELL_USER").unwrap_or_else(|_| "lynnf".to_string());
+    let bene_user = env::var("SHELL_USERb").unwrap_or_else(|_| "bene".to_string());
     loop {
         println!("Please enter your username");
 
@@ -20,18 +21,17 @@ pub fn login() -> Result<(), Box<dyn std::error::Error>> {
                 break;
             }
 
+            u if u == bene_user => {
+                println!("Welcome, {}. Your shell is active.", u);
+                let _ = bene_shell();
+                break;
+            }
+
             "guest" => {
                 println!("Welcome, Guest. Sub-Shell for guests is active.");
                 let _ = guest_shell();
                 break;
             }
-
-            "bene" => {
-                println!("Welcome, Bene. Shell-instance is active.");
-                let _ = bene_shell();
-                break;
-            }
-
             _ => {
                 println!("Authentication failure!");
                 println!("Restarting authentication!");
