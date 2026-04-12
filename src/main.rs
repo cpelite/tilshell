@@ -16,6 +16,7 @@ mod tools {
     pub mod session_handling;
     pub mod parser;
     pub mod authentication;
+    pub mod roles;
 }
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
@@ -23,6 +24,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{style_bold}{color_yellow}  ⚠️  DEVELOPMENT RELEASE ⚠️{color_reset}{style_reset}");
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
     println!();
-    let _ = login(); // "login"
-    shell_loop()    // shell
+    let role = login()?;
+    shell_loop(role)
 }

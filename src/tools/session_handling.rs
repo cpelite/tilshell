@@ -1,12 +1,12 @@
 use std::{env, io};
 use std::io::Write;
 use crate::parse_command;
-use crate::tools::parser::*;
 use crate::tools::authentication::*;
+use crate::tools::roles::*;
 use dotenv::dotenv;
 
 //rudimentary login system, based on dotenv
-pub fn login() -> Result<(), Box<dyn std::error::Error>> {
+pub fn login() -> Result<UserRole, Box<dyn std::error::Error>> {
     dotenv().ok();
     let valid_user = env::var("SHELL_USER_R").unwrap_or_else(|_| "lynn".to_string());
     let bene_user = env::var("SHELL_USER_B").unwrap_or_else(|_| "bene".to_string());
@@ -24,7 +24,7 @@ pub fn login() -> Result<(), Box<dyn std::error::Error>> {
                 io::stdin().read_line(&mut password)?;
                 if verify_pw(password.trim()) {
                     println!("Welcome, {}.", u);
-                    break;
+                    return Ok(UserRole::Lynn);
                 } else {
                     println!("Wrong password!");
                     println!("Restarting authentication!")
@@ -33,14 +33,12 @@ pub fn login() -> Result<(), Box<dyn std::error::Error>> {
 
             u if u == bene_user => {
                 println!("Welcome, {}. Your shell is active.", u);
-                let _ = bene_shell();
-                break;
+                return Ok(UserRole::Lynn);
             }
 
             "guest" => {
                 println!("Welcome, Guest. Sub-Shell for guests is active.");
-                let _ = guest_shell();
-                break;
+                return Ok(UserRole::Lynn);
             }
             _ => {
                 println!("Authentication failure!");
@@ -48,7 +46,6 @@ pub fn login() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
     }
-    Ok(())
 }
 
 /* old authentication system, which can be defined as a very early prototype,
@@ -71,37 +68,13 @@ pub fn login() -> Result<(), Box<dyn std::error::Error>> {
 } */
 
 // looping after login - "root" shell
-pub fn shell_loop() -> Result<(), Box<dyn std::error::Error>> {
+pub fn shell_loop(role: UserRole) -> Result<(), Box<dyn std::error::Error>> {
     loop {
         let curr_path = env::current_dir()?;
         print!("{} ", curr_path.display());
         io::stdout().flush()?;
         let mut input = String::new();
         io::stdin().read_line(&mut input)?;
-        parse_command(&input);
-    }
-}
-
-// looping after login - guest shell
-pub fn guest_shell() -> Result<(), Box<dyn std::error::Error>> {
-    loop {
-        let curr_path = env::current_dir()?;
-        print!("{} ", curr_path.display());
-        io::stdout().flush()?;
-        let mut input = String::new();
-        io::stdin().read_line(&mut input)?;
-        parse_command_guest(&input);
-    }
-}
-
-// looping after login - bene shell
-pub fn bene_shell() -> Result<(), Box<dyn std::error::Error>> {
-    loop {
-        let curr_path = env::current_dir()?;
-        print!("{} ", curr_path.display());
-        io::stdout().flush()?;
-        let mut input = String::new();
-        io::stdin().read_line(&mut input)?;
-        parse_command_bene(&input);
+        parse_command(&input, &role);
     }
 }
