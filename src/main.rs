@@ -5,7 +5,7 @@ use inline_colorization::*;
 //imports end here
 
 //static strings start here
-static VER: &str = "TilShell v3.1.0-stable | 2026-04-11";
+static VER: &str = "TilShell v4.0.0-dev | 2026-04-12";
 static DEV: &str = "Dev: CPElite / ZlatinaDev";
 //static strings end here
 
@@ -19,7 +19,7 @@ mod tools {
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
     println!("{style_bold}{color_bright_cyan}  {VER}{color_reset}{style_reset}"); // VER statt hardcoded!
-    //println!("{style_bold}{color_yellow}  ⚠️  DEVELOPMENT RELEASE ⚠️{color_reset}{style_reset}");
+    println!("{style_bold}{color_yellow}  ⚠️  DEVELOPMENT RELEASE ⚠️{color_reset}{style_reset}");
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
     println!();
     let _ = login(); // "login"
