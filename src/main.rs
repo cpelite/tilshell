@@ -18,7 +18,7 @@ mod tools {
     pub mod authentication;
     pub mod roles;
 }
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+pub fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{style_bold}{color_bright_cyan}═══════════════════════════════════════{color_reset}{style_reset}");
     println!("{style_bold}{color_bright_cyan}  {VER}{color_reset}{style_reset}"); // VER statt hardcoded!
     println!("{style_bold}{color_yellow}  ⚠️  DEVELOPMENT RELEASE ⚠️{color_reset}{style_reset}");

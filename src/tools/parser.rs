@@ -21,13 +21,14 @@ pub fn parse_command(input: &str, role: &UserRole) {
         "chdir" | "cd" => chdir(&args),
         "dir" | "ls" => dir(),
         "clear" | "cls" => clear(),
+        "swu" => switch_user(),
         "gshell" => {
             match role {
                 UserRole::Guest => gshell_info(),
                 _ => println!("{style_bold}{color_bright_red}Permission denied.{color_reset}{style_reset}"),
             }
         }
-        "touch" | "echo" | "rm" | "mkdir" | "rmdir" | "rnd" | "git" | "callext" => {
+        "touch" | "echo" | "rm" | "mkdir" | "rmdir" | "rnd" => {
             match role {
                 UserRole::Guest => println!("{style_bold}{color_bright_red}Permission denied.{color_reset}{style_reset}"),
                 _ => match command {
@@ -37,15 +38,19 @@ pub fn parse_command(input: &str, role: &UserRole) {
                     "mkdir" => mkdir(&args),
                     "rmdir" => rmdir(&args),
                     "rnd" => renamedir(&args),
-                    "git" => git(),
-                    "callext" => call_external(&args),
                     _ => unreachable!(),
                 }
             }
         }
-        "test_bene" => {
+        "callext" => {
             match role {
-                UserRole::Bene => test_bene(),
+                UserRole::Lynn => call_external(&args),
+                _ => println!("{style_bold}{color_bright_red}Permission denied.{color_reset}{style_reset}"),
+            }
+        }
+        "bshell_info" => {
+            match role {
+                UserRole::Bene => bshell_info(),
                 _ => println!("{style_bold}{color_bright_red}Permission denied.{color_reset}{style_reset}"),
             }
         }

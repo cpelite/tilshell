@@ -2,10 +2,10 @@ use crate::VER;
 use crate::DEV;
 use std::collections::BTreeMap;
 use crate::tools::roles::*;
+use crate::main;
 
 pub fn help(role: &UserRole) {
     let mut commands = BTreeMap::new();
-
     // für alle
     commands.insert("help", "Show this command listing.");
     commands.insert("info", "Shows information about shell.");
@@ -16,9 +16,8 @@ pub fn help(role: &UserRole) {
     commands.insert("chdir", "Change the working directory.");
     commands.insert("dir", "Lists all files and folders in current directory.");
     commands.insert("clear", "Clears screen.");
+    commands.insert("swu", "Switches User");
 
-
-    // nur für nicht-guests
     match role {
         UserRole::Guest => {
             commands.insert("gshell", "Displays information about the guest shell.");
@@ -31,8 +30,7 @@ pub fn help(role: &UserRole) {
             commands.insert("rmdir", "Removes a directory.");
             commands.insert("rnd", "Renames a directory.");
             commands.insert("git", "Calls git.");
-            commands.insert("callext", "Calls external commands.");
-            commands.insert("test_bene", "Test command for Bene.");
+            commands.insert("bshell_info", "Displays information about Bene-Subshell.");
         }
         UserRole::Lynn => {
             commands.insert("touch", "Creates a new file.");
@@ -52,6 +50,7 @@ pub fn help(role: &UserRole) {
         println!("{:<20} - {}", command, description);
     }
 }
+
 pub fn info() {
     println!("{VER}");
     println!("{DEV}");
@@ -69,14 +68,15 @@ pub fn todo() {
     println!("Improve working with files and paths.");
 }
 
-//guest-shell specific commands and functions
-
 pub fn gshell_info() {
     println!("You are currently using the Sub-Shell for Guests.");
     println!("This shell is a shell with limited features, which only allows read operations.");
 }
 
-//specific commands for the user shell bene
-pub fn test_bene() {
-    println!("This is a simple test command for the bene shell.");
+pub fn bshell_info() {
+    println!("Bene-Subshell is a power user shell, whilst Lynn-Subshell allows calls to external commands.");
+}
+
+pub fn switch_user() {
+    main();
 }

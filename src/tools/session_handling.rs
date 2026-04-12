@@ -5,7 +5,7 @@ use crate::tools::authentication::*;
 use crate::tools::roles::*;
 use dotenv::dotenv;
 
-//rudimentary login system, based on dotenv
+// login system, based on dotenv
 pub fn login() -> Result<UserRole, Box<dyn std::error::Error>> {
     dotenv().ok();
     let valid_user = env::var("SHELL_USER_R").unwrap_or_else(|_| "lynn".to_string());
@@ -33,12 +33,12 @@ pub fn login() -> Result<UserRole, Box<dyn std::error::Error>> {
 
             u if u == bene_user => {
                 println!("Welcome, {}. Your shell is active.", u);
-                return Ok(UserRole::Lynn);
+                return Ok(UserRole::Bene);
             }
 
             "guest" => {
                 println!("Welcome, Guest. Sub-Shell for guests is active.");
-                return Ok(UserRole::Lynn);
+                return Ok(UserRole::Guest);
             }
             _ => {
                 println!("Authentication failure!");
@@ -48,26 +48,8 @@ pub fn login() -> Result<UserRole, Box<dyn std::error::Error>> {
     }
 }
 
-/* old authentication system, which can be defined as a very early prototype,
-        but is more likely just flaming garbage..
 
-
-        if username.trim() == "lynnf" {
-            println!("Welcome, Lynn.");
-            break;
-        } else if username.trim() == "guest" {
-            println!("Welcome, Guest. Sub-shell for guests is active.");
-            let _ = guest_shell();
-            break;
-        } else {
-            println!("Authentication failure!");
-            println!("Restarting authentication!");
-        }
-    }
-    Ok(())
-} */
-
-// looping after login - "root" shell
+// loop after login
 pub fn shell_loop(role: UserRole) -> Result<(), Box<dyn std::error::Error>> {
     loop {
         let curr_path = env::current_dir()?;

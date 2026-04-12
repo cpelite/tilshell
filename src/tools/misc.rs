@@ -13,13 +13,6 @@ pub fn clear() {
     io::stdout().flush().unwrap();
 }
 
-pub fn git() {
-    let output = Command::new("git").output().unwrap_or_else(|e| {
-        panic!("failed to execute process: {}", e);
-    });
-    println!("{}", String::from_utf8_lossy(&output.stdout))
-}
-
 pub fn call_external(args: &[&str]) {
     if args.is_empty() {
         println!("Usage: enter a external process that should be called, eg: git");
