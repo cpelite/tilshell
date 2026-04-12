@@ -5,8 +5,8 @@ use inline_colorization::*;
 
 pub fn parse_command(input: &str) {
     let mut parts = input.trim().split_whitespace();
-    let command = parts.next().unwrap_or(""); // Erster Teil ist der Befehl
-    let args: Vec<&str> = parts.collect(); // Restliche Teile sind Argumente
+    let command = parts.next().unwrap_or(""); // first part = command
+    let args: Vec<&str> = parts.collect(); // all other parts = arguments
 
     match command {
         "" => return,
@@ -33,8 +33,8 @@ pub fn parse_command(input: &str) {
 
 pub fn parse_command_guest(input: &str) {
     let mut parts = input.trim().split_whitespace();
-    let command = parts.next().unwrap_or(""); // Erster Teil ist der Befehl
-    let args: Vec<&str> = parts.collect(); // Restliche Teile sind Argumente
+    let command = parts.next().unwrap_or("");
+    let args: Vec<&str> = parts.collect();
 
     match command {
         "" => return,
