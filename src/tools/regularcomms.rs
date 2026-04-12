@@ -72,3 +72,8 @@ pub fn help_guest() {
 
     }
 }
+
+//specific commands for the user shell bene
+pub fn test_bene() {
+    println!("This is a simple test command for the bene shell.");
+}
